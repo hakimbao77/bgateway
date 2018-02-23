@@ -42,7 +42,12 @@ var routesDefaultFHIR = function(app, DefaultFHIR){
 	app.get('/:apikey/address-use/code/:code', DefaultFHIR.get.addressUseCode);
 	app.get('/:apikey/address-type/:_id', DefaultFHIR.get.addressType);
 	app.get('/:apikey/address-type/code/:code', DefaultFHIR.get.addressTypeCode);
-
+	app.get('/:apikey/act-encounter-code/:_id?', DefaultFHIR.get.actEncounterCode);
+	app.get('/:apikey/act-encounter-code/code/:code?', DefaultFHIR.get.actEncounterCodeCode);
+	app.get('/:apikey/act-priority/:_id?', DefaultFHIR.get.actPriority);
+	app.get('/:apikey/act-priority/code/:code?', DefaultFHIR.get.actPriorityCode);
+	app.get('/:apikey/account-status/:_id?', DefaultFHIR.get.accountStatus);
+	app.get('/:apikey/account-status/code/:code?', DefaultFHIR.get.accountStatusCode);
 	app.get('/:apikey/check-id/:id/:name', DefaultFHIR.get.checkId);
 	app.get('/:apikey/check-code/:code/:name', DefaultFHIR.get.checkCode);
 	app.get('/:apikey/check-uniqevalue/:fdvalue/:tbname', DefaultFHIR.get.checkUniqeValue);
@@ -68,6 +73,10 @@ var routesDefaultFHIR = function(app, DefaultFHIR){
 	app.post('/:apikey/contact-point-use', DefaultFHIR.post.contactPointUse);
 	app.post('/:apikey/address-use', DefaultFHIR.post.addressUse);
 	app.post('/:apikey/address-type', DefaultFHIR.post.addressType);
+	app.post('/:apikey/act-encounter-code', DefaultFHIR.post.actEncounterCode);
+	app.post('/:apikey/act-priority', DefaultFHIR.post.actPriority);
+	app.post('/:apikey/account-status', DefaultFHIR.post.accountStatus);
+	app.post('/:apikey/account-type', DefaultFHIR.post.accountType);
 	app.post('/:apikey/attachment', DefaultFHIR.post.attachment);
 	app.post('/:apikey/identifier', DefaultFHIR.post.identifier);
 	app.post('/:apikey/human-name', DefaultFHIR.post.humanName);
@@ -93,6 +102,10 @@ var routesDefaultFHIR = function(app, DefaultFHIR){
 	app.put('/:apikey/contact-point-use/:_id', DefaultFHIR.put.contactPointUse);
 	app.put('/:apikey/address-use/:_id', DefaultFHIR.put.addressUse);
 	app.put('/:apikey/address-type/:_id', DefaultFHIR.put.addressType);
+	app.put('/:apikey/act-encounter-code/:id', DefaultFHIR.put.actEncounterCode);
+	app.put('/:apikey/account-status/:id', DefaultFHIR.put.accountStatus);
+	app.put('/:apikey/act-priority/:id', DefaultFHIR.put.actPriority);
+	app.put('/:apikey/account-type/:id', DefaultFHIR.put.accountType);
 	app.put('/:apikey/attachment/:_id', DefaultFHIR.put.attachment);
 
 }

@@ -13,8 +13,7 @@ var port = configYaml.phoenix.port;
 
 // var phoenix = require("./phoenix.js");
 var phoenix = require(path.resolve("./phoenix.js"));
-// var db = new phoenix("jdbc:phoenix:" + host + ":/hbase-unsecure");
-var db = new phoenix("jdbc:phoenix:" + "192.168.1.231" + ":/hbase-unsecure");
+var db = new phoenix("jdbc:phoenix:" + host + ":/hbase-unsecure");
 
 var controller = {
 	get: {
@@ -919,8 +918,98 @@ var controller = {
       },function(e){
         res.json({"err_code": 2, "err_msg":e, "application": "Api Phoenix", "function": "getAddressTypeCode"});
       });
+    },
+	actEncounterCode: function getActEncounterCode(req, res){
+      _id = req.params._id;
+
+      if(_id == 0){
+        condition = "";
+      }else{
+        condition = "WHERE id  = "+ _id;
+      }
+
+      var query = "SELECT id , code, display, definition FROM BACIRO_FHIR.ACT_ENCOUNTER_CODE " + condition;
+      
+      db.query(query,function(dataJson){
+        rez = lowercaseObject(dataJson);
+        res.json({"err_code":0,"data":rez});
+      },function(e){
+        res.json({"err_code": 2, "err_msg":e, "application": "Api Phoenix", "function": "getActEncounterCode"});
+      });
+    },
+    actEncounterCodeCode: function getActEncounterCodeCode(req, res){
+      code = req.params.code;
+
+      var query = "SELECT id, code, display, definition FROM BACIRO_FHIR.ACT_ENCOUNTER_CODE WHERE code = '" + code + "' ";
+      
+      db.query(query,function(dataJson){
+        rez = lowercaseObject(dataJson);
+        res.json({"err_code":0,"data":rez});
+      },function(e){
+        res.json({"err_code": 2, "err_msg":e, "application": "Api Phoenix", "function": "getActEncounterCodeCode"});
+      });
+    },
+	actPriority: function getActPriority(req, res){
+      _id = req.params._id;
+
+      if(_id == 0){
+        condition = "";
+      }else{
+        condition = "WHERE id  = "+ _id;
+      }
+
+      var query = "SELECT id , code, display, definition FROM BACIRO_FHIR.ACT_PRIORITY " + condition;
+      
+      db.query(query,function(dataJson){
+        rez = lowercaseObject(dataJson);
+        res.json({"err_code":0,"data":rez});
+      },function(e){
+        res.json({"err_code": 2, "err_msg":e, "application": "Api Phoenix", "function": "getActPriority"});
+      });
+    },
+    actPriorityCode: function getActPriorityCode(req, res){
+      code = req.params.code;
+
+      var query = "SELECT id, code, display, definition FROM BACIRO_FHIR.ACT_PRIORITY WHERE code = '" + code + "' ";
+      
+      db.query(query,function(dataJson){
+        rez = lowercaseObject(dataJson);
+        res.json({"err_code":0,"data":rez});
+      },function(e){
+        res.json({"err_code": 2, "err_msg":e, "application": "Api Phoenix", "function": "getActPriorityCode"});
+      });
+    },
+	accountStatus: function getAccountStatus(req, res){
+      _id = req.params._id;
+
+      if(_id == 0){
+        condition = "";
+      }else{
+        condition = "WHERE id  = "+ _id;
+      }
+
+      var query = "SELECT id , code, display, definition FROM BACIRO_FHIR.ACCOUNT_STATUS " + condition;
+      
+      db.query(query,function(dataJson){
+        rez = lowercaseObject(dataJson);
+        res.json({"err_code":0,"data":rez});
+      },function(e){
+        res.json({"err_code": 2, "err_msg":e, "application": "Api Phoenix", "function": "getAccountStatus"});
+      });
+    },
+    accountStatusCode: function getAccountStatusCode(req, res){
+      code = req.params.code;
+
+      var query = "SELECT id, code, display, definition FROM BACIRO_FHIR.ACCOUNT_STATUS WHERE code = '" + code + "' ";
+      
+      db.query(query,function(dataJson){
+        rez = lowercaseObject(dataJson);
+        res.json({"err_code":0,"data":rez});
+      },function(e){
+        res.json({"err_code": 2, "err_msg":e, "application": "Api Phoenix", "function": "getAccountStatusCode"});
+      });
     }
-  },
+  },  
   post: {
     identityAssuranceLevel: function addIdentityAssuranceLevel(req, res){
       var code = req.body.code;
@@ -1277,6 +1366,86 @@ var controller = {
         });
       },function(e){
           res.json({"err_code": 2, "err_msg":e, "application": "Api Phoenix", "function": "addAddressType"});
+      });
+    },
+	actEncounterCode: function addActEncounterCode(req, res){
+      var code = req.body.code;
+      var display = req.body.display;
+      var definition = req.body.definition;
+     
+      var query = "UPSERT INTO BACIRO_FHIR.ACT_ENCOUNTER_CODE(id, code, display, definition)"+
+        " VALUES (NEXT VALUE FOR BACIRO_FHIR.ACT_ENCOUNTER_CODE_AUTO_ID,'"+code+"','"+display+"','"+definition+"')";
+        
+      db.upsert(query,function(succes){
+        var query = "SELECT id, code, display, definition FROM BACIRO_FHIR.ACT_ENCOUNTER_CODE WHERE code = '" + code + "' ";
+        db.query(query,function(dataJson){
+          rez = lowercaseObject(dataJson);
+          res.json({"err_code":0,"data":rez});
+        },function(e){
+          res.json({"err_code": 1, "err_msg":e, "application": "Api Phoenix", "function": "addActEncounterCode"});
+        });
+      },function(e){
+          res.json({"err_code": 2, "err_msg":e, "application": "Api Phoenix", "function": "addActEncounterCode"});
+      });
+    },
+	actPriority: function addActPriority(req, res){
+      var code = req.body.code;
+      var display = req.body.display;
+      var definition = req.body.definition;
+     
+      var query = "UPSERT INTO BACIRO_FHIR.ACT_PRIORITY(id, code, display, definition)"+
+        " VALUES (NEXT VALUE FOR BACIRO_FHIR.ACT_PRIORITY_AUTO_ID,'"+code+"','"+display+"','"+definition+"')";
+        
+      db.upsert(query,function(succes){
+        var query = "SELECT id, code, display, definition FROM BACIRO_FHIR.ACT_PRIORITY WHERE code = '" + code + "' ";
+        db.query(query,function(dataJson){
+          rez = lowercaseObject(dataJson);
+          res.json({"err_code":0,"data":rez});
+        },function(e){
+          res.json({"err_code": 1, "err_msg":e, "application": "Api Phoenix", "function": "addActPriority"});
+        });
+      },function(e){
+          res.json({"err_code": 2, "err_msg":e, "application": "Api Phoenix", "function": "addActPriority"});
+      });
+    },
+	accountStatus: function addAccountStatus(req, res){
+      var code = req.body.code;
+      var display = req.body.display;
+      var definition = req.body.definition;
+     
+      var query = "UPSERT INTO BACIRO_FHIR.ACCOUNT_STATUS(id, code, display, definition)"+
+        " VALUES (NEXT VALUE FOR BACIRO_FHIR.ACCOUNT_STATUS_AUTO_ID,'"+code+"','"+display+"','"+definition+"')";
+        
+      db.upsert(query,function(succes){
+        var query = "SELECT id, code, display, definition FROM BACIRO_FHIR.ACCOUNT_STATUS WHERE code = '" + code + "' ";
+        db.query(query,function(dataJson){
+          rez = lowercaseObject(dataJson);
+          res.json({"err_code":0,"data":rez});
+        },function(e){
+          res.json({"err_code": 1, "err_msg":e, "application": "Api Phoenix", "function": "addAccountStatus"});
+        });
+      },function(e){
+          res.json({"err_code": 2, "err_msg":e, "application": "Api Phoenix", "function": "addAccountStatus"});
+      });
+    },
+	accountType: function addAccountType(req, res){
+      var code = req.body.code;
+      var display = req.body.display;
+      var definition = req.body.definition;
+     
+      var query = "UPSERT INTO BACIRO_FHIR.ACCOUNT_TYPE(id, code, display, definition)"+
+        " VALUES (NEXT VALUE FOR BACIRO_FHIR.ACCOUNT_TYPE_AUTO_ID,'"+code+"','"+display+"','"+definition+"')";
+        
+      db.upsert(query,function(succes){
+        var query = "SELECT id, code, display, definition FROM BACIRO_FHIR.ACCOUNT_TYPE WHERE code = '" + code + "' ";
+        db.query(query,function(dataJson){
+          rez = lowercaseObject(dataJson);
+          res.json({"err_code":0,"data":rez});
+        },function(e){
+          res.json({"err_code": 1, "err_msg":e, "application": "Api Phoenix", "function": "addAccountType"});
+        });
+      },function(e){
+          res.json({"err_code": 2, "err_msg":e, "application": "Api Phoenix", "function": "addAccountType"});
       });
     },
     attachment: function addAttachment(req, res){
@@ -2450,6 +2619,166 @@ var controller = {
         });
       },function(e){
           res.json({"err_code": 1, "err_msg":e, "application": "Api Phoenix", "function": "updateAddressType"});
+      });
+    },
+	actEncounterCode: function updateActEncounterCode(req, res){
+      var _id = req.params._id;
+      var code = req.body.code;
+      var display = req.body.display;
+      var definition = req.body.definition;
+      
+      //susun query update
+      var column = "";
+      var values = "";
+
+      if(typeof code !== 'undefined'){
+        column += 'code,';
+        values += "'" +code +"',";
+      }
+
+      if(typeof display !== 'undefined'){
+        column += 'display,';
+        values += "'" +display +"',";
+      }
+
+      if(typeof definition !== 'undefined'){
+        column += 'definition,';
+        values += "'" +definition +"',";
+      }
+
+      var query = "UPSERT INTO BACIRO_FHIR.ACT_ENCOUNTER_CODE(id," + column.slice(0, -1) + ") SELECT id, " + values.slice(0, -1) + " FROM BACIRO_FHIR.ACT_ENCOUNTER_CODE WHERE id = " + _id;
+      
+      db.upsert(query,function(succes){
+        var query = "SELECT id, code, display, definition FROM BACIRO_FHIR.ACT_ENCOUNTER_CODE WHERE id = "+ _id;
+
+        db.query(query,function(dataJson){
+          rez = lowercaseObject(dataJson);
+          res.json({"err_code":0,"data":rez});
+        },function(e){
+          res.json({"err_code": 2, "err_msg":e, "application": "Api Phoenix", "function": "updateActEncounterCode"});
+        });
+      },function(e){
+          res.json({"err_code": 1, "err_msg":e, "application": "Api Phoenix", "function": "updateActEncounterCode"});
+      });
+    },
+	actPriority: function updateActPriority(req, res){
+      var _id = req.params._id;
+      var code = req.body.code;
+      var display = req.body.display;
+      var definition = req.body.definition;
+      
+      //susun query update
+      var column = "";
+      var values = "";
+
+      if(typeof code !== 'undefined'){
+        column += 'code,';
+        values += "'" +code +"',";
+      }
+
+      if(typeof display !== 'undefined'){
+        column += 'display,';
+        values += "'" +display +"',";
+      }
+
+      if(typeof definition !== 'undefined'){
+        column += 'definition,';
+        values += "'" +definition +"',";
+      }
+
+      var query = "UPSERT INTO BACIRO_FHIR.ACT_PRIORITY(id," + column.slice(0, -1) + ") SELECT id, " + values.slice(0, -1) + " FROM BACIRO_FHIR.ACT_PRIORITY WHERE id = " + _id;
+      
+      db.upsert(query,function(succes){
+        var query = "SELECT id, code, display, definition FROM BACIRO_FHIR.ACT_PRIORITY WHERE id = "+ _id;
+
+        db.query(query,function(dataJson){
+          rez = lowercaseObject(dataJson);
+          res.json({"err_code":0,"data":rez});
+        },function(e){
+          res.json({"err_code": 2, "err_msg":e, "application": "Api Phoenix", "function": "updateActPriority"});
+        });
+      },function(e){
+          res.json({"err_code": 1, "err_msg":e, "application": "Api Phoenix", "function": "updateActPriority"});
+      });
+    },
+	accountStatus: function updateAccountStatus(req, res){
+      var _id = req.params._id;
+      var code = req.body.code;
+      var display = req.body.display;
+      var definition = req.body.definition;
+      
+      //susun query update
+      var column = "";
+      var values = "";
+
+      if(typeof code !== 'undefined'){
+        column += 'code,';
+        values += "'" +code +"',";
+      }
+
+      if(typeof display !== 'undefined'){
+        column += 'display,';
+        values += "'" +display +"',";
+      }
+
+      if(typeof definition !== 'undefined'){
+        column += 'definition,';
+        values += "'" +definition +"',";
+      }
+
+      var query = "UPSERT INTO BACIRO_FHIR.ACCOUNT_STATUS(id," + column.slice(0, -1) + ") SELECT id, " + values.slice(0, -1) + " FROM BACIRO_FHIR.ACCOUNT_STATUS WHERE id = " + _id;
+      
+      db.upsert(query,function(succes){
+        var query = "SELECT id, code, display, definition FROM BACIRO_FHIR.ACCOUNT_STATUS WHERE id = "+ _id;
+
+        db.query(query,function(dataJson){
+          rez = lowercaseObject(dataJson);
+          res.json({"err_code":0,"data":rez});
+        },function(e){
+          res.json({"err_code": 2, "err_msg":e, "application": "Api Phoenix", "function": "updateAccountStatus"});
+        });
+      },function(e){
+          res.json({"err_code": 1, "err_msg":e, "application": "Api Phoenix", "function": "updateAccountStatus"});
+      });
+    },
+	accountType: function updateAccountType(req, res){
+      var _id = req.params._id;
+      var code = req.body.code;
+      var display = req.body.display;
+      var definition = req.body.definition;
+      
+      //susun query update
+      var column = "";
+      var values = "";
+
+      if(typeof code !== 'undefined'){
+        column += 'code,';
+        values += "'" +code +"',";
+      }
+
+      if(typeof display !== 'undefined'){
+        column += 'display,';
+        values += "'" +display +"',";
+      }
+
+      if(typeof definition !== 'undefined'){
+        column += 'definition,';
+        values += "'" +definition +"',";
+      }
+
+      var query = "UPSERT INTO BACIRO_FHIR.ACCOUNT_TYPE(id," + column.slice(0, -1) + ") SELECT id, " + values.slice(0, -1) + " FROM BACIRO_FHIR.ACCOUNT_TYPE WHERE id = " + _id;
+      
+      db.upsert(query,function(succes){
+        var query = "SELECT id, code, display, definition FROM BACIRO_FHIR.ACCOUNT_TYPE WHERE id = "+ _id;
+
+        db.query(query,function(dataJson){
+          rez = lowercaseObject(dataJson);
+          res.json({"err_code":0,"data":rez});
+        },function(e){
+          res.json({"err_code": 2, "err_msg":e, "application": "Api Phoenix", "function": "updateAccountType"});
+        });
+      },function(e){
+          res.json({"err_code": 1, "err_msg":e, "application": "Api Phoenix", "function": "updateAccountType"});
       });
     },
     attachment: function updateAttachment(req, res){

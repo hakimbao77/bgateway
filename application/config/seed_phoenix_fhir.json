@@ -127,6 +127,30 @@
          },
          "addressTypeCode":{
             "location": "%(apikey)s/address-type/code/%(code)s"
+         },
+		 "actEncounterCode":{
+            "location": "%(apikey)s/act-encounter-code/%(_id)d"
+         },
+         "actEncounterCodeCode":{
+            "location": "%(apikey)s/act-encounter-code/code/%(code)s"
+         },
+		 "actPriority":{
+            "location": "%(apikey)s/act-priority/%(_id)d"
+         },
+         "actPriorityCode":{
+            "location": "%(apikey)s/act-priority/code/%(code)s"
+         },
+		 "accountStatus":{
+            "location": "%(apikey)s/account-status/%(_id)d"
+         },
+         "accountStatusCode":{
+            "location": "%(apikey)s/account-status/code/%(code)s"
+         },
+		 "accountType":{
+            "location": "%(apikey)s/account-type/%(_id)d"
+         },
+         "accountTypeCode":{
+            "location": "%(apikey)s/account-type/code/%(code)s"
          }
       },
       "POST": {
@@ -183,6 +207,18 @@
          },
          "addressType": {
             "location": "%(apikey)s/address-type"
+         },
+		 "actEncounterCode": {
+            "location": "%(apikey)s/act-encounter-code"
+         },
+		 "actPriority": {
+            "location": "%(apikey)s/act-priority"
+         },
+		 "accountStatus": {
+            "location": "%(apikey)s/account-status"
+         },
+		 "accountType": {
+            "location": "%(apikey)s/account-type"
          },
          "attachment": {
             "location": "%(apikey)s/attachment"
@@ -288,9 +324,18 @@
          "addressType":{
             "location": "%(apikey)s/address-type/%(_id)d"
          },
+		 "actEncounterCode":{
+            "location": "%(apikey)s/act-encounter-code/%(_id)d"
+         },
+		 "accountStatus":{
+            "location": "%(apikey)s/account-status/%(_id)d"
+         },
+		 "actPriority":{
+            "location": "%(apikey)s/act/%(_id)d"
+         },
          "attachment":{
             "location": "%(apikey)s/attachment/%(_id)d"
          }
-      }
+    }
    }
 }
